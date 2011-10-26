@@ -7,7 +7,7 @@ export EDITOR=/usr/bin/vim
 export EVENT_NOKQUEUE=yes
 export GREP_OPTIONS='--color=auto'
 
-export PATH=/opt/local/lib/postgresql83/bin:/opt/local/bin:/opt/local/sbin:/Users/jwood/bin:/usr/local/mysql/bin:$ANDROID_HOME/tools:$PATH
+export PATH=/opt/local/lib/postgresql83/bin:/opt/local/bin:/usr/local/sbin:/Users/dpa/bin:/usr/local/mysql/bin:$ANDROID_HOME/tools:~/scripts:$PATH
 export PATH="/Library/Frameworks/Python.framework/Versions/2.6/bin:${PATH}"
 
 test -r /sw/bin/init.sh && . /sw/bin/init.sh
@@ -22,16 +22,23 @@ alias dns-flush='dscacheutil -flushcache'
 
 complete -d cd rmdir
 
+export GIT_PS1_SHOWDIRTYSTATE=1
+export GIT_PS1_SHOWSTASHSTATE=1
+export GIT_PS1_SHOWUNTRACKEDFILES=1
+
 # Add git branch to prompt
 function parse_git_branch {
   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
 
 function proml {
-  PS1="[\w\$(parse_git_branch)] \$ "
+#  PS1="[\w\$(parse_git_branch)] \$ "
+  PS1="[\w\$(__git_ps1)] \$ "
   PS2='> '
   PS4='+ '
 }
 proml
+
+complete -C ~/bin/cap_completion.rb -o default cap
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"  # This loads RVM into a shell session.
